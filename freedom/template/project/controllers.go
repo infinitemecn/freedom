@@ -32,7 +32,7 @@ func controllerTemplate() string {
 	
 	//Get handles the GET: / route.
 	func (c *Default) Get() freedom.Result {
-		c.Worker.Logger().Info("我是控制器")
+		c.Worker.Logger().Info("I'm Controller")
 		remote := c.Sev.RemoteInfo()
 		return &infra.JSONResponse{Object: remote}
 	}

@@ -10,7 +10,7 @@ import (
 
 var _ UnitTest = (*UnitTestImpl)(nil)
 
-// UnitTest .
+// UnitTest Unit testing tools.
 type UnitTest interface {
 	FetchService(service interface{})
 	FetchRepository(repository interface{})
@@ -22,7 +22,7 @@ type UnitTest interface {
 	InjectBaseEntity(entity interface{})
 }
 
-// UnitTestImpl .
+// UnitTestImpl Unit testing tools.
 type UnitTestImpl struct {
 	rt      *worker
 	request *http.Request
