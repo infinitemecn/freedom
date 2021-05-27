@@ -105,7 +105,7 @@ func (req *httpRequest) ToJSON(obj interface{}) *Response {
 	}
 	req.Response.Error = Unmarshal(body, obj)
 	if req.Response.Error != nil {
-		req.Response.Error = fmt.Errorf("%s, body:%s", req.Response.Error.Error(), string(body))
+		req.Response.Error = fmt.Errorf("ToJSON %s data:%s, %w", req.GetStdRequest().URL.String(), string(body), req.Response.Error)
 	}
 	return &req.Response
 }
@@ -136,6 +136,9 @@ func (req *httpRequest) ToXML(v interface{}) *Response {
 	}
 
 	req.Response.Error = xml.Unmarshal(body, v)
+	if req.Response.Error != nil {
+		req.Response.Error = fmt.Errorf("ToXML %s data:%s, %w", req.GetStdRequest().URL.String(), string(body), req.Response.Error)
+	}
 	return &req.Response
 }
 
