@@ -67,7 +67,7 @@ func controllerTemplate() string {
 			UserName     string $$wavejson:"userName" validate:"required"$$wave
 			UserPassword string $$wavejson:"userPassword" validate:"required"$$wave
 		}
-		if err := c.Request.ReadJSON(&postJSONData); err != nil {
+		if err := c.Request.ReadJSON(&postJSONData, true); err != nil {
 			return &infra.JSONResponse{Error: err}
 		}
 		
@@ -101,7 +101,7 @@ func controllerTemplate() string {
 			ID    int64  $$waveurl:"id" validate:"required"$$wave
 			IP    []int64 $$waveurl:"ip"$$wave //Support array parameters
 		}
-		if err := c.Request.ReadQuery(&query); err != nil {
+		if err := c.Request.ReadQuery(&query, true); err != nil {
 			return &infra.JSONResponse{Error: err}
 		}
 
