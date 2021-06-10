@@ -90,7 +90,7 @@ func (manager *EventManager) push(event freedom.DomainEvent) {
 		}
 
 		// Push成功后删除
-		if err := manager.db().Delete(&pubEventObject{}, "identity = ?", identity).Error; err != nil {
+		if err := manager.db().Where("identity = ?", identity).Delete(&pubEventObject{}).Error; err != nil {
 			freedom.Logger().Error(err)
 		}
 	}()
