@@ -3,6 +3,7 @@ package internal
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"reflect"
 
 	"github.com/kataras/iris/v12/context"
@@ -33,7 +34,10 @@ func (locator *ServiceLocatorImpl) InstallEndCallBack(f func(Worker)) {
 // Call Called with a service locator.
 func (locator *ServiceLocatorImpl) Call(fun interface{}) {
 	ctx := context.NewContext(globalApp.IrisApp)
-	ctx.BeginRequest(nil, new(http.Request))
+	request := new(http.Request)
+	request.URL = &url.URL{}
+	ctx.ResetRequest(request)
+
 	worker := newWorker(ctx)
 	ctx.Values().Set(WorkerKey, worker)
 	worker.bus = newBus(make(http.Header))
