@@ -28,13 +28,15 @@ func NewLogger(traceName, traceID string) *Logger {
 	logger := loggerPool.New().(*Logger)
 	logger.traceID = traceID
 	logger.traceName = traceName
+	logger.lineNumber = false
 	return logger
 }
 
 // Logger The implementation of Logger..
 type Logger struct {
-	traceID   string
-	traceName string
+	traceID    string
+	traceName  string
+	lineNumber bool
 }
 
 // Print prints a log message without levels and colors.
@@ -133,6 +135,11 @@ func (l *Logger) Warnf(format string, args ...interface{}) {
 func (l *Logger) Info(v ...interface{}) {
 	trace := l.traceField()
 	v = append(v, trace)
+
+	if l.lineNumber {
+		caller := l.callerField()
+		v = append(v, caller)
+	}
 	freedom.Logger().Info(v...)
 }
 
@@ -140,6 +147,11 @@ func (l *Logger) Info(v ...interface{}) {
 func (l *Logger) Infof(format string, args ...interface{}) {
 	trace := l.traceField()
 	args = append(args, trace)
+
+	if l.lineNumber {
+		caller := l.callerField()
+		args = append(args, caller)
+	}
 	freedom.Logger().Infof(format, args...)
 }
 
@@ -157,6 +169,12 @@ func (l *Logger) Debugf(format string, args ...interface{}) {
 	trace := l.traceField()
 	args = append(args, caller, trace)
 	freedom.Logger().Debugf(format, args...)
+}
+
+// EnableLineNumber
+func (l *Logger) EnableLineNumber() {
+	l.lineNumber = true
+	return
 }
 
 // traceField

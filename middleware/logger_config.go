@@ -18,6 +18,7 @@ type RequestLoggerConfig struct {
 	RequestRawBody       bool
 	RequestRawBodyMaxLen int64
 	Title                string
+	LineNumber           bool
 	traceName            string
 	// Status displays status code (bool).
 	//

@@ -50,6 +50,9 @@ func (l *requestLoggerMiddleware) ServeHTTP(ctx context.Context) {
 
 	work := freedom.ToWorker(ctx)
 	freelog := NewLogger(l.config.traceName, work.Bus().Get(l.config.traceName))
+	if l.config.LineNumber {
+		freelog.EnableLineNumber()
+	}
 	work.SetLogger(freelog)
 
 	rawQuery := ctx.Request().URL.Query()
